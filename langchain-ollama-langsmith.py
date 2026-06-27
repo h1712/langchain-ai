@@ -1,14 +1,15 @@
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
-#from langchain_openai import AzureChatOpenAI
 from langchain_ollama import ChatOllama
 import os
 
 load_dotenv()
 
-# Map OPENAI_API_KEY to what AzureChatOpenAI expects
-#os.environ.setdefault("AZURE_OPENAI_API_KEY", os.getenv("OPENAI_API_KEY", ""))
-#os.environ.setdefault("AZURE_OPENAI_ENDPOINT", "https://xchat.openai.azure.com")
+# --- LangSmith Tracing Configuration ---
+os.environ.setdefault("LANGCHAIN_TRACING_V2", os.getenv("LANGSMITH_TRACING", "true"))
+os.environ.setdefault("LANGCHAIN_ENDPOINT", os.getenv("LANGSMITH_ENDPOINT", "https://apac.api.smith.langchain.com"))
+os.environ.setdefault("LANGCHAIN_API_KEY", os.getenv("LANGSMITH_API_KEY", ""))
+os.environ.setdefault("LANGCHAIN_PROJECT", os.getenv("LANGSMITH_PROJECT", "first"))
 
 
 def main():
