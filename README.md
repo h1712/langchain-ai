@@ -97,6 +97,39 @@ python langchain_web_search_agent.py yocto project latest release
 
 This is the same pattern used in TejaBot's agentic routing (Jira, Confluence, knowledge search).
 
+### 6. `Increment_calculating_agent.py` — Multi-Tool Agent with Custom Logic
+
+A **ReAct agent** that calculates employee salary increments by chaining multiple tool calls. Demonstrates how an LLM autonomously decides which tools to call and in what order.
+
+**Tools:**
+- `get_current_salary(employee)` — looks up salary from a dictionary
+- `calculate_incremented_salary(current_salary, rating)` — applies rating-based bonus percentage
+
+**How it works:**
+```
+Question: "Calculate Ravi's incremented salary (outstanding rating)"
+    │
+    ▼ Iteration 1
+LLM calls: get_current_salary("Ravi") → returns 1000
+    │
+    ▼ Iteration 2
+LLM calls: calculate_incremented_salary(1000, "outstanding") → returns 1120
+    │
+    ▼ Iteration 3
+LLM synthesizes: "Ravi's incremented salary is 1120 (12% bonus for outstanding)"
+```
+
+**Key learnings:**
+- Ollama `llama3.1` does NOT support structured tool calling properly — outputs JSON text instead of function calls. Commented in code with explanation.
+- Azure OpenAI GPT-4 handles `bind_tools()` correctly with proper `tool_calls` format.
+- Agent loop processes one tool per iteration for clarity and control.
+- `@traceable` decorator enables LangSmith tracing for the full agent loop.
+
+**Usage:**
+```bash
+python Increment_calculating_agent.py
+```
+
 ---
 
 ## Setup
